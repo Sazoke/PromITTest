@@ -18,7 +18,9 @@ await Parallel.ForEachAsync(args, async (file, ct) =>
     var words = new Dictionary<string, WordStat>();
     await foreach (var line in File.ReadLinesAsync(file, ct))
         AnalyzeLine(line, words);
-    await dataAccess.SaveStatsAsync(words.Values.ToList());
+    await dataAccess.SaveStatsAsync(words.Values
+        .Where(v => v.Word.Length is >= 3 and <= 20 && v.Count > 4)
+        .ToList());
 
 });
 return;
