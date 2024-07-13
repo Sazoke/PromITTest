@@ -1,0 +1,21 @@
+﻿services:
+  consoleapp1:
+    image: consoleapp1
+    build:
+      context: .
+      dockerfile: ConsoleApp1/Dockerfile
+  
+  text-db:
+    container_name: sql-server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "test123!"
+    ports:
+      - 1433:1433
+    volumes:
+      - text-db:/var/opt/mssql
+
+volumes:
+  text-db:
+    name: text-db
